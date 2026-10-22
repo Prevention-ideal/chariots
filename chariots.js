@@ -1,4 +1,4 @@
-// Généré depuis le carnet d'entretien le 22/10/2026 — ne pas modifier à la main
+// Généré depuis le carnet d'entretien — ne pas modifier à la main
 window.CHARIOTS = [
   {"id":"01","designation":"Préparateur de commandes","categorie":"R489 – Cat. 1A","constructeur":"FENWICK LINDE","modele":"T 20SF","serie":"W4X14400540","capacite":"2 000 kg","vgp":"14/06/2026","vgpMois":6},
   {"id":"02","designation":"Préparateur de commandes","categorie":"R489 – Cat. 1A","constructeur":"FENWICK","modele":"N20 Longue fourche","serie":"W4X149P0112","capacite":"2 000 kg","vgp":"14/06/2026","vgpMois":6},
