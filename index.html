@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Parc chariots — idéal prévention</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f1923;--faint:#8a97a8;--rule:#e2e8f0;--sheet:#f3f5f8;--blue:#026DE1;--green:#0d7c4b;--green-l:#e6f6ee;--red:#c41a1a;--red-l:#fff0f0;--orange:#b55400;--orange-l:#fff4e6}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--sheet);color:var(--ink);font-size:14px}
+header{background:var(--ink);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+header img{height:28px}
+header h1{font-size:16px;font-weight:600;color:#cbd5e0;flex:1}
+header a{color:#fff;background:var(--blue);text-decoration:none;font-weight:600;font-size:13px;padding:8px 14px;border-radius:7px}
+main{max-width:980px;margin:0 auto;padding:16px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.it{display:block;background:#fff;border:1px solid var(--rule);border-left:5px solid var(--rule);border-radius:10px;padding:12px 14px;text-decoration:none;color:inherit}
+.it:hover{border-color:var(--blue)}
+.it.exp{border-left-color:var(--red);background:var(--red-l)}
+.it.soon{border-left-color:#f0a040}
+.it.ok{border-left-color:var(--green)}
+.n{font-size:11px;color:var(--faint);font-weight:700}
+.t{font-weight:700;margin-top:2px}
+.s{font-size:12px;color:var(--faint)}
+.tag{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px}
+.tag.exp{background:var(--red);color:#fff}.tag.soon{background:#f0a040;color:#fff}.tag.ok{background:var(--green-l);color:var(--green)}.tag.none{background:var(--sheet);color:var(--faint)}
+</style>
+</head>
+<body>
+<header><img src="logo-blanc.svg" alt="idéal prévention"><h1>Parc chariots — documents</h1><a href="etiquettes.html">🏷️ Étiquettes QR</a></header>
+<main><div class="list" id="list"></div></main>
+<script src="chariots.js"></script>
+<script>
+const pad = n => String(n).padStart(2, '0'), fmt = d => pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function st(v, mois) {
+  mois = mois || 6;
+  const m = (v || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if (!m) return ['none', 'VGP non renseignée'];
+  const d = new Date(+m[3], +m[2] - 1, +m[1]), last = new Date(d.getFullYear(), d.getMonth() + mois + 1, 0).getDate();
+  const next = new Date(d.getFullYear(), d.getMonth() + mois, Math.min(d.getDate(), last)), t = new Date(); t.setHours(0, 0, 0, 0);
+  const left = Math.round((next - t) / 864e5);
+  return left < 0 ? ['exp', 'VGP expirée le ' + fmt(next)] : left <= 30 ? ['soon', 'VGP expire le ' + fmt(next)] : ['ok', 'VGP valide jusqu’au ' + fmt(next)];
+}
+document.getElementById('list').innerHTML = CHARIOTS.filter(c => !c.retire).map(c => { const [k, l] = st(c.vgp, c.vgpMois); return `
+  <a class="it ${k}" href="chariot.html?c=${c.id}"><div class="n">N° ${c.id} · ${esc(c.categorie)}</div>
+  <div class="t">${esc(c.designation)}</div><div class="s">${esc(c.constructeur)} ${esc(c.modele)} — S/N ${esc(c.serie)}</div>
+  <span class="tag ${k}">${l}</span></a>`; }).join('');
+</script>
+</body>
+</html>
