@@ -18,11 +18,12 @@ window.CHARIOTS = [
   {"id":"18","designation":"Chariot à cabine élevable","categorie":"R489 – Cat. 6","constructeur":"ATLET","modele":"OPC/100 TVI530","serie":"OPC 25964/04","capacite":"1 000 kg","vgp":"12/06/2026","vgpMois":6},
   {"id":"19","designation":"Chariot à cabine élevable","categorie":"R489 – Cat. 6","constructeur":"ATLET","modele":"OPC/100 TVI563","serie":"OPC 72540/05","capacite":"1 000 kg","vgp":"11/06/2026","vgpMois":6},
   {"id":"20","designation":"Chariot à cabine élevable","categorie":"R489 – Cat. 6","constructeur":"ATLET","modele":"OPC/100 TVI563","serie":"OPC 73644/05","capacite":"1 000 kg","vgp":"11/06/2026","vgpMois":6},
-  {"id":"21","designation":"Gerbeur","categorie":"R485 – Cat. 1","constructeur":"MIC","modele":"G10","serie":"97A103 32717","capacite":"1 000 kg","vgp":"11/06/2026","vgpMois":6},
   {"id":"22","designation":"Gerbeur accompagnant","categorie":"R485/R486 – Cat. 2","constructeur":"STILL","modele":"EXV12","serie":"F20273E01895","capacite":"1 200 kg","vgp":"11/06/2026","vgpMois":6},
   {"id":"23","designation":"Gerbeur accompagnant","categorie":"R485/R486 – Cat. 2","constructeur":"FENWICK","modele":"L12i","serie":"F21172M05138","capacite":"1 200 kg","vgp":"11/06/2026","vgpMois":6},
   {"id":"24","designation":"PEMP","categorie":"R486 – Cat. 1A","constructeur":"GÉNIE","modele":"AWPE-255 AC","serie":"3801 17625","capacite":"—","vgp":"11/06/2026","vgpMois":6},
   {"id":"25","designation":"Chariot frontal","categorie":"R489 – Cat. 3","constructeur":"FENWICK","modele":"E14","serie":"H21251P03097","capacite":"1 400 kg","vgp":"12/06/2026","vgpMois":6},
+  {"id":"26","designation":"Pont roulant","categorie":"R484 - Cat 1","constructeur":"FENWICK","modele":"Bi poutre","serie":"828842","capacite":"3000 Kg","vgp":"20/03/2026","vgpMois":12},
   {"id":"14","designation":"Chariot à mât rétractable","categorie":"R489 – Cat. 5","constructeur":"HYSTER","modele":"R1.4","serie":"C435T06071F","capacite":"1 400 kg","vgp":"16/06/2026","vgpMois":6,"retire":true},
   {"id":"16","designation":"Chariot à mât rétractable","categorie":"R489 – Cat. 5","constructeur":"MITSUBISHI","modele":"RB14N2HS","serie":"RFB30A 00097","capacite":"1 400 kg","vgp":"12/06/2026","vgpMois":6,"retire":true},
+  {"id":"21","designation":"Gerbeur","categorie":"R485 – Cat. 1","constructeur":"MIC","modele":"G10","serie":"97A103 32717","capacite":"1 000 kg","vgp":"11/06/2026","vgpMois":6,"retire":true},
 ];
