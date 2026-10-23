@@ -1,7 +1,7 @@
-Dossier du chariot 09
+Dossier de l'engin 09
 
 Déposez ici les documents scannés en PDF, avec EXACTEMENT ces noms :
-  - VGP.pdf                    (déjà présent, généré depuis l'outil VGP)
+  - VGP.pdf                    (automatique, depuis le carnet d'entretien)
   - notice.pdf                 (notice d'utilisation)
   - certificat_conformite.pdf  (certificat / déclaration CE de conformité)
-  - carnet_maintenance.pdf     (carnet de maintenance)
+  - carnet_maintenance.pdf     (automatique, depuis le carnet d'entretien)
