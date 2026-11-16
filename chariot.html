@@ -55,7 +55,7 @@ footer{text-align:center;color:var(--faint);font-size:11.5px;padding:18px 16px 3
 </head>
 <body>
 <div id="app"></div>
-<script src="chariots.js"></script>
+<script>document.write('<script src="chariots.js?v=' + Date.now() + '"><\/script>');</script>
 <script>
 const DOCS = [
   { file: 'VGP.pdf', name: 'Rapport de VGP', desc: 'Vérification générale périodique', icon: '🛡️' },
@@ -106,7 +106,7 @@ if (!c) {
     </div>
     <div class="sec">Documents du chariot <span id="count"></span></div>
     <div id="docs">${DOCS.map((d, i) => `
-      <a class="doc" id="doc-${i}" href="docs/${c.id}/${d.file}" target="_blank" rel="noopener">
+      <a class="doc" id="doc-${i}" href="docs/${c.id}/${d.file}?v=${Date.now()}" target="_blank" rel="noopener">
         <div class="di">${d.icon}</div>
         <div class="dt"><div class="dn">${d.name}</div><div class="ds">${d.desc}</div></div>
         <div class="go">›</div>
