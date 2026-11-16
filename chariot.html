@@ -69,32 +69,39 @@ function parseFR(t) { const m = (t || '').trim().match(/^(\d{1,2})\/(\d{1,2})\/(
 function addMonths(d, n) { const last = new Date(d.getFullYear(), d.getMonth() + n + 1, 0).getDate(); return new Date(d.getFullYear(), d.getMonth() + n, Math.min(d.getDate(), last)); }
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-const id = (new URLSearchParams(location.search).get('c') || '').padStart(2, '0');
+const id = (new URLSearchParams(location.search).get('c') || '').toUpperCase().padStart(2, '0');
 const c = (window.CHARIOTS || []).find(x => x.id === id);
+const FAMS = {
+  engin: { Nom: 'Chariot', le: 'ce chariot', lart: 'le chariot', du: 'du chariot', cap: 'Capacité nominale', eq: 'Cet engin' },
+  harnais: { Nom: 'Harnais', le: 'ce harnais', lart: 'le harnais', du: 'du harnais', cap: 'Poids max utilisateur', eq: 'Cet équipement' },
+  elingue: { Nom: 'Élingue', le: 'cette élingue', lart: 'l’élingue', du: 'de l’élingue', cap: 'Charge max (CMU)', eq: 'Cet équipement' },
+};
+const F = FAMS[(c && c.famille) || 'engin'] || FAMS.engin;
+if (F !== FAMS.engin) { DOCS[1].desc = 'Notice du fabricant'; DOCS[2].desc = 'Déclaration UE de conformité'; DOCS[3].name = 'Fiche de vie'; DOCS[3].desc = 'Historique des vérifications'; }
 const app = document.getElementById('app');
 
 if (!c) {
-  app.innerHTML = '<header><img class="logo" src="logo-blanc.svg" alt="idéal prévention"></header><div class="err"><h2>Chariot introuvable</h2><p style="margin-top:8px">Ce QR code ne correspond à aucun chariot. Prévenez votre formateur.</p></div>';
+  app.innerHTML = '<header><img class="logo" src="logo-blanc.svg" alt="idéal prévention"></header><div class="err"><h2>Équipement introuvable</h2><p style="margin-top:8px">Ce QR code ne correspond à aucun équipement. Prévenez votre formateur.</p></div>';
 } else if (c.retire) {
-  document.title = 'Chariot ' + c.id + ' — retiré';
-  app.innerHTML = `<header><img class="logo" src="logo-blanc.svg" alt="idéal prévention"><span class="badge">${esc(c.categorie)}</span><span class="num">Chariot n° ${esc(c.id)}</span><h1>${esc(c.designation)}</h1><div class="sub">${esc(c.constructeur)} — ${esc(c.modele)}</div></header>
-  <main><div class="vgp exp"><div class="ico">⛔</div><div><h2>Engin retiré du parc</h2><p>Cet engin ne doit plus être utilisé. Prévenez votre formateur et retirez l'étiquette.</p></div></div></main>`;
+  document.title = F.Nom + ' ' + c.id + ' — retiré';
+  app.innerHTML = `<header><img class="logo" src="logo-blanc.svg" alt="idéal prévention"><span class="badge">${esc(c.categorie)}</span><span class="num">${F.Nom} n° ${esc(c.id)}</span><h1>${esc(c.designation)}</h1><div class="sub">${esc(c.constructeur)} — ${esc(c.modele)}</div></header>
+  <main><div class="vgp exp"><div class="ico">⛔</div><div><h2>${F === FAMS.engin ? 'Engin' : 'Équipement'} retiré du parc</h2><p>${F.eq} ne doit plus être utilisé. Prévenez votre formateur et retirez l'étiquette.</p></div></div></main>`;
 } else {
-  document.title = 'Chariot ' + c.id + ' — ' + c.designation;
+  document.title = F.Nom + ' ' + c.id + ' — ' + c.designation;
   const last = parseFR(c.vgp);
   let v;
   if (!last) v = { cls: 'none', ico: '❔', t: 'VGP non renseignée', p: 'Prévenez votre formateur avant toute utilisation.' };
   else {
     const next = addMonths(last, c.vgpMois || 6), t = new Date(); t.setHours(0, 0, 0, 0);
     const left = Math.round((next - t) / 86400000);
-    if (left < 0) v = { cls: 'exp', ico: '⛔', t: 'VGP expirée depuis le ' + fmt(next), p: "N'utilisez pas ce chariot. Prévenez immédiatement votre formateur." };
+    if (left < 0) v = { cls: 'exp', ico: '⛔', t: 'VGP expirée depuis le ' + fmt(next), p: "N'utilisez pas " + F.le + ". Prévenez immédiatement votre formateur." };
     else if (left <= 30) v = { cls: 'soon', ico: '⚠️', t: 'VGP valide jusqu’au ' + fmt(next), p: 'Expire dans ' + left + ' jour' + (left > 1 ? 's' : '') + ' — dernière VGP le ' + fmt(last) + '.' };
     else v = { cls: 'ok', ico: '✅', t: 'VGP à jour', p: 'Valide jusqu’au ' + fmt(next) + ' — dernière VGP le ' + fmt(last) + '.' };
   }
   app.innerHTML = `
   <header>
     <img class="logo" src="logo-blanc.svg" alt="idéal prévention">
-    <span class="badge">${esc(c.categorie)}</span><span class="num">Chariot n° ${esc(c.id)}</span>
+    <span class="badge">${esc(c.categorie)}</span><span class="num">${F.Nom} n° ${esc(c.id)}</span>
     <h1>${esc(c.designation)}</h1>
     <div class="sub">${esc(c.constructeur)} — ${esc(c.modele)}</div>
   </header>
@@ -102,9 +109,9 @@ if (!c) {
     <div class="vgp ${v.cls}"><div class="ico">${v.ico}</div><div><h2>${v.t}</h2><p>${v.p}</p></div></div>
     <div class="card ids">
       <div><div class="lbl">N° de série</div><div class="val">${esc(c.serie || '—')}</div></div>
-      <div><div class="lbl">Capacité nominale</div><div class="val">${esc(c.capacite || '—')}</div></div>
+      <div><div class="lbl">${F.cap}</div><div class="val">${esc(c.capacite || '—')}</div></div>
     </div>
-    <div class="sec">Documents du chariot <span id="count"></span></div>
+    <div class="sec">Documents ${F.du} <span id="count"></span></div>
     <div id="docs">${DOCS.map((d, i) => `
       <a class="doc" id="doc-${i}" href="docs/${c.id}/${d.file}?v=${Date.now()}" target="_blank" rel="noopener">
         <div class="di">${d.icon}</div>
@@ -112,7 +119,7 @@ if (!c) {
         <div class="go">›</div>
       </a>`).join('')}
     </div>
-    <div class="check" id="check"><strong>Avant d'utiliser le chariot</strong>, vérifiez que les 4 documents sont présents et que la VGP est à jour.</div>
+    <div class="check" id="check"><strong>Avant d'utiliser ${F.lart}</strong>, vérifiez que les 4 documents sont présents et que la VGP est à jour.</div>
   </main>
   <footer>IDEAL PREVENTION SECURITE · Documents réservés aux stagiaires et formateurs</footer>`;
 
@@ -130,7 +137,7 @@ if (!c) {
         document.getElementById('count').innerHTML = `<span class="st ${n === DOCS.length ? 'ok' : 'ko'}">${n}/${DOCS.length}</span>`;
         if (n < DOCS.length || v.cls === 'exp' || v.cls === 'none') {
           const ch = document.getElementById('check'); ch.classList.add('alert');
-          ch.innerHTML = '<strong>Dossier incomplet ou VGP non valide.</strong> Ne pas utiliser ce chariot avant l’accord de votre formateur.';
+          ch.innerHTML = '<strong>Dossier incomplet ou VGP non valide.</strong> Ne pas utiliser ' + F.le + ' avant l’accord de votre formateur.';
         }
       });
   }

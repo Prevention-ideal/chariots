@@ -2408,7 +2408,7 @@ function render() {
         <img class="lg" src="logo-noir.svg" alt="idéal prévention">
         <div class="scan">Scannez — documents du chariot</div>
         <div class="qr">${base ? qrSvg(base + 'chariot.html?c=' + c.id) : ''}</div>
-        <div class="num">Chariot n° ${esc(c.id)}</div>
+        <div class="num">${c.famille === 'harnais' ? 'Harnais' : c.famille === 'elingue' ? 'Élingue' : 'Chariot'} n° ${esc(c.id)}</div>
         <div class="des">${esc(c.designation)} · ${esc(c.categorie)}</div>
         <div class="sn">${esc(c.constructeur)} ${esc(c.modele)} — S/N ${esc(c.serie)}</div>
       </div>`).join('') + '</div>';
