@@ -73,8 +73,8 @@ const id = (new URLSearchParams(location.search).get('c') || '').toUpperCase().p
 const c = (window.CHARIOTS || []).find(x => x.id === id);
 const FAMS = {
   engin: { Nom: 'Chariot', le: 'ce chariot', lart: 'le chariot', du: 'du chariot', cap: 'Capacité nominale', eq: 'Cet engin' },
-  harnais: { Nom: 'Harnais', le: 'ce harnais', lart: 'le harnais', du: 'du harnais', cap: 'Poids max utilisateur', eq: 'Cet équipement' },
-  elingue: { Nom: 'Élingue', le: 'cette élingue', lart: 'l’élingue', du: 'de l’élingue', cap: 'Charge max (CMU)', eq: 'Cet équipement' },
+  harnais: { Nom: 'Harnais', le: 'ce harnais', lart: 'le harnais', du: 'du travail en hauteur', cap: 'Poids max utilisateur', eq: 'Cet équipement' },
+  elingue: { Nom: 'Élingue', le: 'cette élingue', lart: 'l’élingue', du: 'du levage', cap: 'Charge max (CMU)', eq: 'Cet équipement' },
 };
 const F = FAMS[(c && c.famille) || 'engin'] || FAMS.engin;
 if (F !== FAMS.engin) { DOCS[1].desc = 'Notice du fabricant'; DOCS[2].desc = 'Déclaration UE de conformité'; DOCS[3].name = 'Fiche de vie'; DOCS[3].desc = 'Historique des vérifications'; }
